@@ -1,0 +1,14 @@
+<launch>
+  <node name="controller" pkg="follow_path" type="PID_controller.py" output="screen">
+    <param name="kp_ang" value="2.6"/>
+    <param name="ki_ang" value="0.001"/>
+    <param name="kd_ang" value="0.9"/>
+    <param name="kp_lin" value="0.75"/>
+    <param name="ki_lin" value="0.001"/>
+    <param name="kd_lin" value="2.5"/>
+    <param name="path_type" value="3"/>
+  </node>
+
+  <include file="$(find follow_path)/launch/simulation_manager.launch"/>
+
+</launch>
