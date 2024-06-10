@@ -1,0 +1,4 @@
+<launch>
+  <node name="bug" pkg="bug_0_algorithm" type="bug.py" output="screen"/>
+
+</launch>
