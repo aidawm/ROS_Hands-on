@@ -156,9 +156,9 @@ class Bug():
 
                     self.state = self.FOLLOW_WALL_GO
                     continue
-
+                rospy.loginfo(f"ANGULAR ERROR= {angular_err}")
                 twist = Twist()
-                twist.angular.z = self.Kp*self.error_angle
+                twist.angular.z = self.Kp*angular_err
                 self.cmd_vel_pub.publish(twist)
 
             
@@ -201,25 +201,7 @@ class Bug():
                 rospy.sleep(10)
 
                 self.state = self.ROTATE
-                    
-
-
-
-            
-
-            
-
-
-        
-
-
-            
-                
-
-            
-                
-
-                
+     
 
 
 if __name__ == '__main__':
