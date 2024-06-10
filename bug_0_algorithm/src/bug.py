@@ -26,7 +26,7 @@ class Bug():
         self.epsilon_linear = 0.1
         self.distances_from_wall = 0.4
 
-        self.GO , self.ROTATE, self.FOLLOW_WALL = 0, 1, 2
+        self.GO , self.ROTATE, self.FOLLOW_WALL_ROTATE, self.FOLLOW_WALL_GO = 0, 1, 2,3
 
         self.state = self.ROTATE
 
@@ -87,16 +87,27 @@ class Bug():
 
             rospy.loginfo(f"state = {self.state}")
             
-            if self.state != self.FOLLOW_WALL:
+            if self.state != self.FOLLOW_WALL_ROTATE and self.state != self.FOLLOW_WALL_GO:
                 # rospy.loginfo(f"d_forward = {d_forward}")
                 if d_forward <= self.distances_from_wall:
 
-                    self.state = self.FOLLOW_WALL
+                    self.state = self.FOLLOW_WALL_ROTATE
 
                     self.prev_error = 0
 
                     self.cmd_vel_pub.publish(Twist())
                     rospy.sleep(2)
+
+                    rotate = self.current_yaw - math.pi/2
+                    for i in range(4):
+                        orientation = i * math.pi/2
+                        if abs(rotate + orientation) < math.pi/4:
+                            self.next_robot_yaw = -orientation
+        
+
+                    rospy.loginfo(f"next_yaw = {self.next_robot_yaw}")
+
+
 
     
             if self.state == self.GO:
@@ -131,32 +142,32 @@ class Bug():
                 
                 
 
-            if self.state == self.FOLLOW_WALL:
-                if d_right[1] > 95 :
-                    rospy.loginfo(f"degree_right = {d_right[1]}")
-                    error = 90 - d_right[1]
-                    rospy.loginfo(error)
-                    twist = Twist()
-                    twist.angular.z = 3*self.error_angle * math.radians(error)
-                    self.cmd_vel_pub.publish(twist)
+            if self.state == self.FOLLOW_WALL_ROTATE:
+    
+                if self.current_yaw > 0:
+                    sign = -1 if (self.current_yaw - math.pi < self.next_robot_yaw < self.current_yaw) else +1
+                else:
+                    sign = +1 if (self.current_yaw + math.pi > self.next_robot_yaw > self.current_yaw) else -1
+                angular_err = sign * (math.pi - abs(abs(self.current_yaw - self.next_robot_yaw) - math.pi))
+
+                if abs(angular_err) <= self.epsilon_angular:
+                    self.cmd_vel_pub.publish(Twist())
+                    rospy.sleep(2)
+
+                    self.state = self.FOLLOW_WALL_GO
                     continue
 
-                elif d_right[1] < 85:
-                    rospy.loginfo(f"degree_right = {d_right[1]}")
-                    error = 90 - d_right[1]
-                    rospy.loginfo(error)
-                    twist = Twist()
-                    twist.angular.z = 3*self.error_angle * math.radians(error)
-                    self.cmd_vel_pub.publish(twist)
-                    continue
+                twist = Twist()
+                twist.angular.z = self.Kp*self.error_angle
+                self.cmd_vel_pub.publish(twist)
 
-                self.cmd_vel_pub.publish(Twist())
-                rospy.sleep(2)
+            
+            if self.state == self.FOLLOW_WALL_GO:
 
                 rotation_angle = self.calculate_rotation_angle()
                 prev_error = 0
                 # while -1*self.laser_ranges[int(math.degrees(rotation_angle))] <= 2* self.distances_from_wall:
-                while not (self.laser_ranges[int(math.degrees(rotation_angle))] > 1 and abs(math.degrees(rotation_angle))>=0 and abs(math.degrees(rotation_angle))<=90):
+                while not (min(self.laser_ranges[int(math.degrees(rotation_angle))-10:int(math.degrees(rotation_angle))+10]) > 1.2 and abs(math.degrees(rotation_angle))>=0 and abs(math.degrees(rotation_angle))<=90):
                     # rospy.loginfo(f"rotation_angle = {int(math.degrees(rotation_angle))}")
                     # rospy.loginfo(f"laser distance= {self.laser_ranges}")
                     # rospy.loginfo(f"angle distance = {self.laser_ranges[int(math.degrees(rotation_angle))]}")
