@@ -1,0 +1,19 @@
+<launch>
+
+    <node pkg="hw2" type="controller.py" name="controller" output="screen">
+        <param name="linear_speed" value="0.8"/>
+    </node>
+    <node pkg="hw2" type="mission.py" name="mission"></node>
+    <node pkg="hw2" type="sensor.py" name="sensor"></node>
+    <node pkg="hw2" type="monitor.py" name="monitor"></node>
+    <include file="$(find hw2)/launch/turtlebot3_rect_world.launch">
+        <arg name="x_pos" value="0.0"/>
+        <arg name="y_pos" value="0"/>
+        <arg name="z_pos" value="0.0"/>
+        <!-- <arg name="yaw" value="1.57075"/> -->
+    </include>
+
+    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_gazebo_rviz.launch"/>
+
+   
+</launch>
