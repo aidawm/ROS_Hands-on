@@ -1,0 +1,9 @@
+<launch>
+
+    
+    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_stage_4.launch"/>
+
+    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_gazebo_rviz.launch"/>
+
+    <include file="$(find pcd_view)/launch/point_cloud.launch"  />
+</launch>

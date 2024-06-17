@@ -1,0 +1,9 @@
+<launch>
+<node type="laser_scan_assembler" pkg="laser_assembler"
+    name="my_assembler">
+<!-- <remap from="scan" to="laser_scan"/> -->
+<param name="max_scans" type="int" value="1000" />
+<param name="fixed_frame" type="string" value="odom" />
+ </node>
+  <node type ="laser2pc.py" pkg="pcd_view" name="laser2pc" output="screen"/>
+</launch>
