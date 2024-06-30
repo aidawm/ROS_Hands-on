@@ -1,0 +1,9 @@
+<launch>
+ 
+  <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_autorace.launch"/>
+  <include file="$(find turtlebot3_autorace_camera)/launch/intrinsic_camera_calibration.launch"/>
+  <include file="$(find turtlebot3_autorace_camera)/launch/extrinsic_camera_calibration.launch"/>
+  <include file="$(find turtlebot3_autorace_detect)/launch/detect_lane.launch"/>
+  <include file="$(find turtlebot3_autorace_driving)/launch/turtlebot3_autorace_control_lane.launch"/>
+
+</launch>

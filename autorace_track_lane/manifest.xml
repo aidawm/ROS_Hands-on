@@ -1,0 +1,15 @@
+<package>
+  <description brief="autorace_track_lane">
+
+     autorace_track_lane
+
+  </description>
+  <author>aida</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/autorace_track_lane</url>
+  <depend package="std_msgs"/>
+  <depend package="rospy"/>
+  <depend package="roscpp"/>
+
+</package>
