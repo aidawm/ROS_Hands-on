@@ -1,0 +1,15 @@
+<launch>
+ 
+  <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_autorace_2020.launch"/>
+  <include file="$(find turtlebot3_autorace_core)/launch/turtlebot3_autorace_mission.launch"/>
+  <include file="$(find turtlebot3_autorace_camera)/launch/intrinsic_camera_calibration.launch"/>
+  
+  <include file="$(find turtlebot3_autorace_camera)/launch/extrinsic_camera_calibration.launch"/>
+  <include file="$(find turtlebot3_autorace_detect)/launch/detect_lane.launch"/>
+  
+  <!-- <include file="$(find turtlebot3_autorace_driving)/launch/turtlebot3_autorace_control_lane.launch"/> -->
+
+  <!-- <node pkg="autorace_track_lane" type="image_processor.py" name="image_processor"/> -->
+
+    <!-- <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_gazebo_rviz.launch"/> -->
+</launch>
