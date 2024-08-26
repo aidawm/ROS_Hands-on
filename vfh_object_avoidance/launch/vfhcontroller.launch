@@ -1,0 +1,10 @@
+<launch>
+  <node pkg="vfhObjectAvoidance" type="vfh.py" name="vfh_node" output="screen"></node>
+  
+  <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_updated_maze.launch">
+    <arg name="model" value="burger" />
+    <arg name="x_pos" value="0" />
+    <arg name="y_pos" value="0" />
+    <arg name="z_pos" value="0.0" />
+  </include>
+</launch>
