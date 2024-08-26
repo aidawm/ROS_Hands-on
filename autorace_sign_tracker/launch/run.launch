@@ -8,8 +8,10 @@
   <include file="$(find turtlebot3_autorace_detect)/launch/detect_lane.launch"/>
   
   <!-- <include file="$(find turtlebot3_autorace_driving)/launch/turtlebot3_autorace_control_lane.launch"/> -->
+  <node pkg="autorace_sign_tracker" type="image_pprocessor.py" name="image_processor"/>
+  <node pkg="autorace_sign_tracker" type="control_lane.py" name="lane_controller"/>
+  <node pkg="autorace_sign_tracker" type="controller.py" name="controller"/>
 
-  <!-- <node pkg="autorace_track_lane" type="image_processor.py" name="image_processor"/> -->
 
     <!-- <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_gazebo_rviz.launch"/> -->
 </launch>

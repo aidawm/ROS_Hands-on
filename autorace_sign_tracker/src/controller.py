@@ -43,9 +43,14 @@ class Controller:
                 self.lane_vel.linear.x /=2
                 self.cmd_vel_publisher.publish(self.lane_vel)
             elif self.exe_mode == 2: # stop
-                print("here?")
+                self.cmd_vel_publisher.publish(Twist())
+            elif self.exe_mode == 3: # right
                 t = Twist()
-                t.linear.x = 0.000001
+                t.angular.z = 1
+                self.cmd_vel_publisher.publish(t)
+            elif self.exe_mode == 4: # left
+                t = Twist()
+                t.angular.z = -1
                 self.cmd_vel_publisher.publish(t)
             rospy.sleep(0.1)
 
